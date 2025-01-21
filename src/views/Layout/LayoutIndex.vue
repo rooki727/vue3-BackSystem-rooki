@@ -1,23 +1,16 @@
 <script setup>
 import LayoutNav from './components/LayoutNav.vue'
 import LayContent from './components/LayoutConten.vue'
-import { ref, provide } from 'vue'
+import { ref } from 'vue'
 const isCollapse = ref(false)
 const changeCollapse = () => {
   isCollapse.value = !isCollapse.value
 }
-
-const childComponent = ref(null)
-const getRmove = () => {
-  childComponent.value.removeActive()
-}
-
-provide('getRmove', getRmove)
 </script>
 
 <template>
   <div class="layoutNav">
-    <LayoutNav :isCollapse="isCollapse" ref="childComponent"></LayoutNav>
+    <LayoutNav :isCollapse="isCollapse"></LayoutNav>
   </div>
   <div class="content" :class="{ isClose: isCollapse }">
     <LayContent :isCollapse="isCollapse" @changeCollapse="changeCollapse"></LayContent>

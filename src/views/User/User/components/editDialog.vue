@@ -159,7 +159,7 @@ watch(
         <el-input v-model="addform.account" autocomplete="off" />
       </el-form-item>
       <el-form-item :label="$t('messages.Password')" label-width="8.75rem" prop="password">
-        <el-input v-model="addform.password" autocomplete="off" />
+        <el-input v-model="addform.password" autocomplete="off" type="password" show-password />
       </el-form-item>
       <!-- 使用下拉框选择权限 -->
       <el-form-item :label="$t('messages.verify')" label-width="8.75rem" prop="verify">

@@ -8,7 +8,7 @@ import {
   deleteAdminAPI,
   getCommonUserAPI,
   addCommonUserAPI,
-  updateCommonUserAPI,
+  updateUserByAdminrAPI,
   deleteCommonUserAPI
 } from '@/apis/user'
 export const useUserStore = defineStore('user', () => {
@@ -73,7 +73,7 @@ export const useUserStore = defineStore('user', () => {
     phone,
     email
   ) => {
-    await updateCommonUserAPI(user_id, name, account, password, verify, gender, phone, email)
+    await updateUserByAdminrAPI(user_id, name, account, password, verify, gender, phone, email)
     getCommonUser()
   }
   // 删除普通用户

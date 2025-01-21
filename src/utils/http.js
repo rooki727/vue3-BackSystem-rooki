@@ -15,6 +15,7 @@ const httpInstance = axios.create({
 httpInstance.interceptors.request.use(
   (config) => {
     const loginerStore = useLoginerStore()
+    loginerStore.getUserInfo()
     const token = loginerStore.userInfo.token
     if (!token && config.url !== '/login') {
       router.push('/login')
@@ -44,20 +45,25 @@ function isTokenAboutToExpire(token) {
 httpInstance.interceptors.response.use(
   async (response) => {
     const loginerStore = useLoginerStore()
+    loginerStore.getUserInfo()
     // 处理 token 过期失效问题
     if (response.data.code === '-403') {
       if (isTokenAboutToExpire(loginerStore.userInfo.token)) {
-        console.log('Token 即将过期，尝试刷新 token')
+        ElMessage({
+          type: 'warning',
+          message: 'Token已过期，尝试刷新token，当前操作若未生效，请重新尝试当前操作',
+          duration: 5000
+        })
         try {
           const res = await refreshTokenAPI(
             loginerStore.userInfo.id,
             loginerStore.userInfo.refreshToken
           )
-          loginerStore.userInfo = res
+          loginerStore.setUserInfo(res)
           // 重新前一请求
-          await httpInstance.request(response.config).then((res) => {
+          await httpInstance.request(response.config).then((res1) => {
             loginerStore.getNewLoginer(loginerStore.userInfo.id)
-            return res.data
+            return res1.data
           })
         } catch (error) {
           console.error('Token 刷新失败', error)

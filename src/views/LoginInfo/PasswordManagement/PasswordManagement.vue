@@ -5,7 +5,7 @@ import { useLoginerStore } from '@/stores/LoginerStore'
 import { updatePasswordAPI } from '@/apis/login'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { getCaptchaAPI } from '@/apis/user'
+import { getCaptchaAPI, checkPasswordAPI } from '@/apis/user'
 // 获取t方法才可以在js代码里使用
 const { t } = useI18n()
 const ruleForm = reactive({
@@ -14,10 +14,10 @@ const ruleForm = reactive({
   checkPass: '',
   captcha: ''
 })
+const isPassOrigin = ref(false)
 const router = useRouter()
 const LoginerStore = useLoginerStore()
 const LoginerId = computed(() => LoginerStore.userInfo.id)
-const LoginerOriPassword = computed(() => LoginerStore.userInfo.password)
 // 图片验证码
 const getcaptcha = ref([])
 const captchaString = computed(() => getcaptcha.value.map((item) => item.value).join(''))
@@ -33,6 +33,10 @@ const validateConfirm = (rule, value, callback) => {
     callback()
   }
 }
+const checkPassword = async () => {
+  const res = await checkPasswordAPI(LoginerId.value, ruleForm.Oripass)
+  isPassOrigin.value = res.result
+}
 // 提醒框组件功能使用
 const centerDialogVisible = ref(false)
 const changeDialogVisible = (value) => {
@@ -44,7 +48,8 @@ const submitForm = (formRef) => {
     if (valid) {
       // 如果表单验证通过，可以继续执行提交逻辑
       // 进行api提交
-      if (ruleForm.Oripass === LoginerOriPassword.value) {
+      await checkPassword()
+      if (isPassOrigin.value) {
         await updatePasswordAPI(LoginerId.value, ruleForm.pass)
         ElMessage({
           message: '修改密码成功',

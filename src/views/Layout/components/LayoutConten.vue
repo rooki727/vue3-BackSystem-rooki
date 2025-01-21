@@ -1,5 +1,5 @@
 <script setup>
-import { watch, ref, onMounted, inject, computed } from 'vue'
+import { watch, ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { ArrowRight } from '@element-plus/icons-vue'
 import LanguageChange from '@/components/languageChange.vue'
@@ -91,13 +91,6 @@ watch(
   }
 )
 
-const getRmoveUse = inject('getRmove')
-const clickRemove = () => {
-  if (getRmoveUse) {
-    getRmoveUse()
-  }
-}
-
 const dialogVisible = ref(false)
 const showPopoverConfirm = () => {
   dialogVisible.value = true
@@ -185,9 +178,7 @@ onMounted(() => {
   </el-row>
 
   <el-breadcrumb :separator-icon="ArrowRight" style="margin-top: 8px">
-    <el-breadcrumb-item :to="{ path: '/' }" @click="clickRemove">{{
-      $t('messages.home')
-    }}</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/' }">{{ $t('messages.home') }}</el-breadcrumb-item>
     <el-breadcrumb-item v-show="secondBread">{{ secondBreadName }}</el-breadcrumb-item>
     <el-breadcrumb-item v-show="secondBread">{{ thitdBreadName }}</el-breadcrumb-item>
   </el-breadcrumb>

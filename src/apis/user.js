@@ -165,3 +165,40 @@ export const getCaptchaAPI = () => {
     method: 'GET'
   })
 }
+// 检查原密码是否正确
+export const checkPasswordAPI = (id, password) => {
+  return httpInstance({
+    url: '/user/checkAdminPass',
+    method: 'POST',
+    data: {
+      id: id,
+      password: password
+    }
+  })
+}
+// updateUserByAdmin
+export const updateUserByAdminrAPI = (
+  user_id,
+  name,
+  account,
+  password,
+  verify,
+  gender,
+  phone,
+  email
+) => {
+  return httpInstance({
+    url: '/user/updateUserByAdmin',
+    method: 'POST',
+    data: {
+      user_id: user_id,
+      name: name,
+      account: account,
+      password: password,
+      verify: verify,
+      gender: gender,
+      phone: phone,
+      email: email
+    }
+  })
+}
