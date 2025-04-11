@@ -21,6 +21,7 @@
     "flower3d": "^0.2.2",
     "jquery": "^3.7.1",
     "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "normalize.css": "^8.0.1",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",

@@ -127,6 +127,7 @@ const connectWebSocket = () => {
       chatContentList.value.push(msg)
     })
     scrollToBottom()
+    message.value = ''
   }
 
   websocket.value.onerror = function (event) {
@@ -163,7 +164,6 @@ const reconnect = () => {
 const sendMessage = async () => {
   if (chatContentList.value) {
     await websocket.value.send(message.value)
-    message.value = ''
   }
 }
 onMounted(async () => {

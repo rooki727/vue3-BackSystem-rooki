@@ -1,5 +1,9 @@
 <script setup>
 const props = defineProps(['isCollapse'])
+import { useLoginerStore } from '@/stores/LoginerStore'
+import { computed } from 'vue'
+const loginerStore = useLoginerStore()
+const verify = computed(() => loginerStore.userInfo.verify)
 </script>
 
 <template>
@@ -27,7 +31,7 @@ const props = defineProps(['isCollapse'])
         <el-icon><Location /></el-icon>
         <span>{{ $t('messages.user_manage') }}</span>
       </template>
-      <router-link to="/user/adminlist" class="router-link-item">
+      <router-link to="/user/adminlist" class="router-link-item" v-if="verify === 'first'">
         <el-menu-item :class="{ 'is-active': $route.path === '/user/adminlist' }">{{
           $t('messages.admin_list')
         }}</el-menu-item>
@@ -88,8 +92,6 @@ const props = defineProps(['isCollapse'])
     </el-sub-menu>
   </el-menu>
 </template>
-
-
 
 <style scoped lang="scss">
 .router-link-item {

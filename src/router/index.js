@@ -70,7 +70,15 @@ const router = createRouter({
             {
               path: 'adminlist',
               component: AdminList,
-              name: 'AdminList'
+              name: 'AdminList',
+              beforeEnter: (to, from, next) => {
+                const loginerStore = useLoginerStore()
+                if (loginerStore.userInfo.verify === 'first') {
+                  next()
+                } else {
+                  next({ name: 'HomeIndex' })
+                }
+              }
             },
             {
               path: 'userlist',
